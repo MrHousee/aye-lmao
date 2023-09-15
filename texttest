@@ -1,0 +1,34 @@
+if (lengthOf(list) == 0 )
+{
+    print("The Original folder is empty.");
+}
+else 
+{
+    //Iterate through each file
+    for (i = 0; i < lengthOf(list); i++)
+    {
+        // Open the image
+        open(originalFolderPath + list[i]);
+        
+        // Create a subfolder for the sequence
+        sequenceSubFolderPath = sequenceFolderPath + list[i] + "/";
+        File.makeDirectory(sequenceSubFolderPath);
+        
+        // Define the specific slice and channel you want to save
+        specificSlice = 5;
+        specificChannel = 3;
+        
+        // Calculate the stack index
+        numChannels = 4; // You mentioned that there are 4 channels
+        stackIndex = (specificSlice - 1) * numChannels + specificChannel;
+        
+        // Navigate to the specific slice and channel
+        setSlice(stackIndex);
+        
+        // Save the image
+        saveAs("Tiff", sequenceSubFolderPath + "Slice" + specificSlice + "_Channel" + specificChannel + "_" + list[i]);
+        
+        // Close the image
+        run("Close");
+    }
+}
